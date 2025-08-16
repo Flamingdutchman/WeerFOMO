@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WeerFOMO – BBQ, Fiets, LAN of Poker?</title>
+  <meta name="theme-color" content="#194b49"/>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WeerFOMO">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <style>
+    :root{
+      --prologis-green: #194b49;
+      --prologis-lightblue: #2ab5e5;
+      --prologis-bluegreen: #22b2a9;
+      --bg: #0b0f0f;
+      --card: #121818;
+      --text: #e7f6f5;
+      --muted: #a6c9c5;
+      --ok: #22b2a9;
+      --warn: #ffc107;
+      --bad: #ff6b6b;
+      --ring: rgba(34,178,169,.35);
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f6fffe;
+        --card: #ffffff;
+        --text: #0f1c1b;
+        --muted: #355c58;
+        --ring: rgba(25,75,73,.15);
+      }
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 70% -10%, var(--ring), transparent), var(--bg);
+      color: var(--text);
+    }
+    header{
+      position: sticky; top:0; z-index:3;
+      background: linear-gradient(180deg, rgba(0,0,0,.35), transparent), var(--bg);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 12px 16px;
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:36px;height:36px;border-radius:9px;
+      background: conic-gradient(from 210deg, var(--prologis-lightblue), var(--prologis-bluegreen), var(--prologis-green), var(--prologis-lightblue));
+      display:grid; place-items:center; color:#fff; font-weight:700;
+      box-shadow: 0 4px 16px rgba(34,178,169,.4);
+    }
+    h1{font-size:18px;margin:0}
+    .sub{color:var(--muted);font-size:12px}
+    .controls{
+      display:flex; gap:8px; margin-left:auto; align-items:center;
+    }
+    button, .chip{
+      appearance:none; border:1px solid rgba(255,255,255,.12);
+      background: var(--card); color: var(--text);
+      padding:8px 12px; border-radius:999px; cursor:pointer;
+      transition: .2s ease; font-weight:600;
+    }
+    button:hover, .chip:hover{transform: translateY(-1px); box-shadow:0 6px 18px var(--ring)}
+    .chip.active{border-color: var(--prologis-bluegreen); box-shadow: 0 0 0 3px var(--ring)}
+    main{padding:16px; max-width:1100px; margin:0 auto}
+    .grid{display:grid; gap:12px; grid-template-columns: repeat( auto-fit, minmax(220px, 1fr));}
+    .card{
+      background:linear-gradient(180deg, rgba(34,178,169,.12), transparent 40%), var(--card);
+      border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:14px;
+    }
+    .dayhead{display:flex; align-items:center; justify-content:space-between; gap:8px}
+    .badge{padding:4px 10px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.14);}
+    .badge.bbq{background: rgba(255,120,0,.12)}
+    .badge.fiets{background: rgba(34,178,169,.12)}
+    .badge.lan{background: rgba(160,160,255,.12)}
+    .badge.poker{background: rgba(255,0,120,.12)}
+    .scorebar{height:8px; border-radius:6px; background: rgba(255,255,255,.08); overflow:hidden; margin-top:8px}
+    .scorebar > div{height:100%; background: linear-gradient(90deg, var(--prologis-bluegreen), var(--prologis-lightblue)); width:0%}
+    .kv{display:grid; grid-template-columns:1fr auto; gap:4px; margin-top:8px; color:var(--muted); font-size:12px}
+    .footer{opacity:.8; font-size:12px; margin-top:16px}
+    .hero{display:grid; gap:10px; grid-template-columns: 1fr; margin: 10px 0 18px}
+    .big{font-size:28px; font-weight:800}
+    .share{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{display:inline-flex; align-items:center; gap:8px}
+    .holiday{margin-top:6px; font-size:12px; color:var(--muted)}
+    .legend{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .legend .badge{display:inline-flex; align-items:center; gap:6px}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">WF</div>
+  <div>
+    <h1>WeerFOMO</h1>
+    <div class="sub">BBQ 🔥 • Fiets 🚴 • LAN 🖥️ • Poker ♠️ – 14-daagse & maandtrend</div>
+  </div>
+  <div class="controls">
+    <button id="use-gps" title="Gebruik mijn locatie">📍 Locatie</button>
+    <button id="share-btn" class="pill">📲 Delen</button>
+    <a class="chip" id="install" href="#" style="display:none">➕ Installeer</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero card">
+    <div class="big" id="headline">Zoek je locatie voor de beste plannen.</div>
+    <div id="subline" class="sub">Tip: doordeweeks focussen we op fietsweer, weekend op BBQ/LAN/Poker.</div>
+    <div class="legend">
+      <span class="badge bbq">BBQ 🔥 hoog = warm + zonnig</span>
+      <span class="badge fiets">Fiets 🚴 droog + niet te veel wind</span>
+      <span class="badge lan">LAN 🖥️ gezellig als het buiten bagger is</span>
+      <span class="badge poker">Poker ♠️ prima bij matig weer, vooral 's avonds</span>
+    </div>
+  </section>
+
+  <section id="forecast" class="grid"></section>
+
+  <section id="climate" class="card">
+    <div class="dayhead">
+      <div><strong>Maandtrend (klimaatgemiddelde)</strong></div>
+      <div class="badge">1991–2020 normals</div>
+    </div>
+    <div class="kv" id="climate-kv"></div>
+    <div class="holiday" id="holiday-tip"></div>
+  </section>
+
+  <div class="footer">Gemaakt met 💚 in Prologis-kleuren. Data: Open‑Meteo (gratis). Privacy: locatie blijft op je device.</div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
